@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'menuWindow.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,8 +36,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 10), () {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PantallaMenu()));
+    Timer(Duration(seconds: 5), () {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => menuWindow()));
     });
   }
 
@@ -55,17 +56,6 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
           ),
         ),
-      ),
-    );
-  }
-}
-
-class PantallaMenu extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text('Pantalla de Menú'),
       ),
     );
   }
