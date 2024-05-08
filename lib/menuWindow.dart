@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import 'scanerWindow.dart';
+import 'inventoryWindow.dart';
 
 class menuWindow extends StatefulWidget {
   @override
@@ -10,7 +12,6 @@ class _menuWindowState extends State<menuWindow> {
   int? _selectedIndex = 0;
 
   void miFuncion(index) {
-    print('¡Hola desde miFuncion!');
     setState(() {
       _selectedIndex = index;
     });
@@ -63,26 +64,7 @@ class _menuWindowState extends State<menuWindow> {
           ],
         ),
       ),
-      body: _selectedIndex == 0 ? PantallaEscaner() : PantallaInventario(),
-    );
-  }
-}
-
-
-class PantallaEscaner extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Pantalla Escaner'),
-    );
-  }
-}
-
-class PantallaInventario extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Pantalla Inventario'),
+      body: _selectedIndex == 0 ? scanerWindow() : inventoryWindow(),
     );
   }
 }
