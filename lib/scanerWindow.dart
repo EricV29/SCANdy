@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'inventoryWindow.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'dart:math' as math;
+import 'package:url_launcher/url_launcher.dart';
 
 class scanerWindow extends StatelessWidget {
 
@@ -81,27 +85,43 @@ class scanerWindow extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: <Widget>[
                                         IconButton(
-                                          icon: Icon(Icons.facebook),
+                                          icon: SvgPicture.asset(
+                                            'assets/linkedin.svg',
+                                            height: 30.0,
+                                            width: 30.0,
+                                          ),
                                           onPressed: () {
-                                            // Aquí va el enlace a la página de Facebook
+                                            launch('https://www.linkedin.com/in/yair-sandoval-2a63812a6/');
                                           },
                                         ),
                                         IconButton(
-                                          icon: Icon(Icons.gite),
+                                          icon: SvgPicture.asset(
+                                            'assets/github.svg',
+                                            height: 30.0,
+                                            width: 30.0,
+                                          ),
                                           onPressed: () {
-                                            // Aquí va el enlace a la página de GitHub
+                                            launch('https://github.com/YairSM20');
                                           },
                                         ),
                                         IconButton(
-                                          icon: Icon(Icons.gite),
+                                          icon: SvgPicture.asset(
+                                            'assets/facebook.svg',
+                                            height: 30.0,
+                                            width: 30.0,
+                                          ),
                                           onPressed: () {
-                                            // Aquí va el enlace a la página de LinkedIn
+                                            launch('https://www.facebook.com/yair.sandoval.9406');
                                           },
                                         ),
                                         IconButton(
-                                          icon: Icon(Icons.gite),
+                                          icon: SvgPicture.asset(
+                                            'assets/instagram.svg',
+                                            height: 40.0,
+                                            width: 40.0,
+                                          ),
                                           onPressed: () {
-                                            // Aquí va el enlace a la página de Instagram
+                                            launch('https://www.instagram.com/yair.mucino/');
                                           },
                                         ),
                                       ],
@@ -118,27 +138,43 @@ class scanerWindow extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: <Widget>[
                                         IconButton(
-                                          icon: Icon(Icons.facebook),
+                                          icon: SvgPicture.asset(
+                                            'assets/linkedin.svg',
+                                            height: 30.0,
+                                            width: 30.0,
+                                          ),
                                           onPressed: () {
-                                            // Aquí va el enlace a la página de Facebook
+                                            launch('https://www.linkedin.com/in/eric-villeda-reyes-584856281/');
                                           },
                                         ),
                                         IconButton(
-                                          icon: Icon(Icons.gite),
+                                          icon: SvgPicture.asset(
+                                            'assets/github.svg',
+                                            height: 30.0,
+                                            width: 30.0,
+                                          ),
                                           onPressed: () {
-                                            // Aquí va el enlace a la página de GitHub
+                                            launch('https://github.com/EricV29');
                                           },
                                         ),
                                         IconButton(
-                                          icon: Icon(Icons.gite),
+                                          icon: SvgPicture.asset(
+                                            'assets/facebook.svg',
+                                            height: 30.0,
+                                            width: 30.0,
+                                          ),
                                           onPressed: () {
-                                            // Aquí va el enlace a la página de LinkedIn
+                                            launch('https://www.facebook.com/eric.villedareyes/');
                                           },
                                         ),
                                         IconButton(
-                                          icon: Icon(Icons.gite),
+                                          icon: SvgPicture.asset(
+                                            'assets/instagram.svg',
+                                            height: 40.0,
+                                            width: 40.0,
+                                          ),
                                           onPressed: () {
-                                            // Aquí va el enlace a la página de Instagram
+                                            launch('https://www.instagram.com/ericvilledareyes/');
                                           },
                                         ),
                                       ],
@@ -219,7 +255,7 @@ class scanerWindow extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Padding(
-                                  padding: EdgeInsets.only(left: 25), // Ajusta este valor al padding que desees
+                                  padding: EdgeInsets.only(left: 25),
                                   child: Text(
                                     '¿Qué es SCANDY?',
                                     style: TextStyle(
@@ -230,19 +266,29 @@ class scanerWindow extends StatelessWidget {
                                   ),
                                 ),
                                 Row(
-                                  children: List.generate(5, (index) {
-                                    List<IconData> icons = [
-                                      Icons.cake,
-                                      Icons.cake,
-                                      Icons.cake,
-                                      Icons.cake,
-                                      Icons.cake,
-                                    ];
+                                  children: [
+                                    'assets/cake.svg',
+                                    'assets/strawberry.svg',
+                                    'assets/orange.svg',
+                                    'assets/juice.svg',
+                                    'assets/cake.svg',
+                                    'assets/cake.svg',
+                                    'assets/strawberry.svg',
+                                  ].asMap().entries.map((entry) {
+                                    int idx = entry.key;
+                                    String asset = entry.value;
                                     return Padding(
-                                      padding: EdgeInsets.only(right: 8),
-                                      child: Icon(icons[index], color: Colors.white),
+                                      padding: EdgeInsets.only(right: 10),
+                                      child: Transform.rotate(
+                                        angle: (idx % 2 == 0) ? -math.pi / 3 : math.pi / 3,  // 60 grados en radianes
+                                        child: SvgPicture.asset(
+                                          asset,
+                                          height: 18.0,
+                                          width: 18.0,
+                                        ),
+                                      ),
                                     );
-                                  }),
+                                  }).toList(),
                                 ),
                               ],
                             ),
@@ -252,6 +298,7 @@ class scanerWindow extends StatelessWidget {
                     ),
                   ),
                   Container(
+                    margin: EdgeInsets.only(bottom: 5),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
@@ -272,6 +319,48 @@ class scanerWindow extends StatelessWidget {
                         ),
                       ],
                     ),
+                  ),
+                  LayoutBuilder(
+                    builder: (context, constraints) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => inventoryWindow()),
+                          );
+                        },
+                        child: Container(
+                          width: constraints.maxWidth,
+                          margin: EdgeInsets.only(bottom: 15),
+                          decoration: BoxDecoration(
+                            color: Color(0xFFFF6996),
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.25),
+                                spreadRadius: 0,
+                                blurRadius: 15,
+                                offset: Offset(-3, 3),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            children: <Widget>[
+                              Padding(
+                                  padding: EdgeInsets.all(15),
+                                  child: Text('Escanear producto',
+                                    style: TextStyle(
+                                      color: Color(0xFFFFFFFF),
+                                      fontSize: 27,
+                                      fontFamily: 'Lemonr',
+                                    ),
+                                  ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
