@@ -79,6 +79,13 @@ flutter:
      - family: Lemonr
        fonts:
          - asset: fonts/Lemon-Regular.ttf
+     - family: Lexendb
+       fonts:
+         - asset: fonts/Lexend-Bold.ttf
+     - family: Lexendr
+       fonts:
+         - asset: fonts/Lexend-Regular.ttf
+
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
