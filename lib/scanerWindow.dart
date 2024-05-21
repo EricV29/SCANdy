@@ -3,8 +3,36 @@ import 'inventoryWindow.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:math' as math;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
-class scanerWindow extends StatelessWidget {
+class scanerWindow extends StatefulWidget {
+  @override
+  _ScannerWindowState createState() => _ScannerWindowState();
+}
+
+class _ScannerWindowState extends State<scanerWindow> {
+  String _scanBarcodeResult = '';
+
+  Future<void> scanBarcodeNormal() async {
+    String barcodeScanRes;
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+        '#FF6996',
+        'Cancel',
+        true,
+        ScanMode.BARCODE,
+      );
+      debugPrint(barcodeScanRes);
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get';
+    }
+    if (!mounted) return;
+    setState(() {
+      _scanBarcodeResult = barcodeScanRes;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -323,11 +351,12 @@ class scanerWindow extends StatelessWidget {
                   LayoutBuilder(
                     builder: (context, constraints) {
                       return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => inventoryWindow()),
-                          );
+                        onTap: () async {
+                          await scanBarcodeNormal();
+                          //Navigator.push(
+                          //                             context,
+                          //                             MaterialPageRoute(builder: (context) => inventoryWindow()),
+                          //                           );
                         },
                         child: Container(
                           width: constraints.maxWidth,
@@ -362,6 +391,7 @@ class scanerWindow extends StatelessWidget {
                       );
                     },
                   ),
+                  Text('Scan result: $_scanBarcodeResult\n'),
                 ],
               ),
             ),
