@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:scandy/recipeProducts.dart';
 import 'inventoryWindow.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:math' as math;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class scanerWindow extends StatefulWidget {
   @override
@@ -28,11 +32,30 @@ class _ScannerWindowState extends State<scanerWindow> {
       barcodeScanRes = 'Failed to get';
     }
     if (!mounted) return;
+
+    var url = Uri.parse('https://api.upcdatabase.org/product/$barcodeScanRes?apikey=EAE3FFF12FA60A094F036DAD476F31F1');
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body);
+      String title = jsonResponse?['title'] ?? '';
+      String description = jsonResponse?['description'] ?? '';
+      // Guarda el producto en las preferencias compartidas
+      await saveProduct(title, description);
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
+
     setState(() {
       _scanBarcodeResult = barcodeScanRes;
     });
   }
 
+  Future<void> saveProduct(String title, String description) async {
+    final prefs = await SharedPreferences.getInstance();
+    List<Map<String, dynamic>> products = await getProductList();
+    products.add({'title': title, 'description': description});
+    prefs.setString('products', jsonEncode(products));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -353,10 +376,6 @@ class _ScannerWindowState extends State<scanerWindow> {
                       return GestureDetector(
                         onTap: () async {
                           await scanBarcodeNormal();
-                          //Navigator.push(
-                          //                             context,
-                          //                             MaterialPageRoute(builder: (context) => inventoryWindow()),
-                          //                           );
                         },
                         child: Container(
                           width: constraints.maxWidth,
@@ -390,13 +409,13 @@ class _ScannerWindowState extends State<scanerWindow> {
                         ),
                       );
                     },
-                  ),
-                  Text('Scan result: $_scanBarcodeResult\n'),
+                  )
                 ],
               ),
             ),
           ),
-        )
+        ),
+
       ],
     );
   }
